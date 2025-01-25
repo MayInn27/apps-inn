@@ -25,8 +25,8 @@
 
 <style>
 	.nav-container {
-		width: calc(100vw - 100px);
 		max-width: 1400px;
+		width: calc(100vw - 40px);
 		margin: 0 auto;
 		padding: 0 1rem;
 	}

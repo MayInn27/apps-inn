@@ -6,6 +6,5 @@
 <style>
 	main {
 		text-align: center;
-		padding: 2rem;
 	}
 </style>
