@@ -134,7 +134,7 @@
 	.basket-button {
 		position: fixed;
 		top: 1rem;
-		right: 8rem;
+		right: 14rem;
 		background: #e53e3e;
 		color: white;
 		border: none;
