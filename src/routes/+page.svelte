@@ -33,8 +33,7 @@
 						Total: &nbsp;
 						<b>
 							{basket[0]?.currencySymbol}
-							{basket.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2)}</b
-						>
+							{basket.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2)}</b>
 					</h4>
 				</ul>
 			{:else}
@@ -185,6 +184,18 @@
 		margin: 0.5rem 0;
 		border-radius: 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.basket-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.total-styling {
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
 	}
 
 	.basket-dialog li:last-child {
