@@ -26,16 +26,14 @@
 					{#each basket as item}
 						<li class="basket-item">
 							<span>{item.name}</span>
-							<span>{item.price}</span>
+							<span>{item.currencySymbol}{item.price}</span>
 						</li>
 					{/each}
 					<h4 class="total-styling">
 						Total: &nbsp;
-						<b
-							>{basket
-								.reduce((total, item) => total + parseFloat(item.price || 0), 0)
-								.toFixed(2)}</b
-						>
+						<b>
+							{basket[0]?.currencySymbol}
+							{basket.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2)}</b>
 					</h4>
 				</ul>
 			{:else}
@@ -51,7 +49,7 @@
 				<img class="dish-image" src={dish.image} alt={dish.name} />
 				<div class="dish-content">
 					<h2 class="dish-name">{dish.name}</h2>
-					<p class="dish-price">{dish.price}</p>
+					<p class="dish-price">{dish.currencySymbol}{dish.price}</p>
 					<p class="dish-details">{dish.details}</p>
 					<div class="button-container">
 						<button class="add-to-basket" on:click={() => addToBasket(dish)}>
