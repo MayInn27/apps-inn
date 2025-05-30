@@ -23,7 +23,21 @@
 	});
 
 	function addToBasket(dish: Dish) {
-		basket = [...basket, dish];
+		const index = basket.findIndex((item) => item.name === dish.name);
+		if (index !== -1) {
+			// If dish is already in basket, increment quantity
+			basket = basket.map((item, i) =>
+				i === index ? { ...item, quantity: item.quantity + 1 } : item
+			);
+		} else {
+			// Add new dish with quantity 1
+			basket = [...basket, { ...dish, quantity: 1 }];
+		}
+	}
+
+	function updateQuantity(index: number, newQty: number) {
+		if (newQty < 1) return;
+		basket = basket.map((item, i) => (i === index ? { ...item, quantity: newQty } : item));
 	}
 
 	function toggleBasket() {
@@ -42,18 +56,47 @@
 			<h2>Your Basket</h2>
 			{#if basket.length > 0}
 				<ul>
-					{#each basket as item}
+					{#each basket as item, idx}
 						<li class="basket-item">
 							<span>{item.name}</span>
-							<span>{item.currencySymbol}{item.price}</span>
+							<select
+								bind:value={item.quantity}
+								on:change={(e) => {
+									const target = e.target as HTMLSelectElement | null;
+									if (target) updateQuantity(idx, +target.value);
+								}}
+							>
+								{#each Array(10)
+									.fill(0)
+									.map((_, i) => i + 1) as qty}
+									<option value={qty}>{qty}</option>
+								{/each}
+							</select>
+							<span>
+								{item.currencySymbol}
+								{(parseFloat(item.price || 0) * (item.quantity || 1)).toFixed(2)}
+							</span>
+							<button
+								aria-label="Remove item from basket"
+								on:click={() => {
+									basket = basket.filter((b) => b !== item);
+								}}
+							>
+								❌
+							</button>
 						</li>
 					{/each}
 					<h4 class="total-styling">
 						Total: &nbsp;
 						<b>
 							{basket[0]?.currencySymbol}
-							{basket.reduce((total, item) => total + (typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')), 0).toFixed(2)}</b
-						>
+							{basket
+								.reduce(
+									(total, item) => total + (typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')) * (item.quantity || 1),
+									0
+								)
+								.toFixed(2)}
+						</b>
 					</h4>
 				</ul>
 			{:else}
@@ -184,7 +227,7 @@
 		border-radius: 8px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		padding: 1rem;
-		width: 300px; /* Fixed width */
+		width: 400px; /* Fixed width */
 		z-index: 999; /* Ensure it's above other content */
 	}
 
