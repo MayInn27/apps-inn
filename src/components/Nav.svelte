@@ -4,7 +4,6 @@
 	const links = [
 		{ name: 'Home', path: '/' },
 		{ name: 'About', path: '/about' },
-		{ name: 'Services', path: '/services' },
 		{ name: 'Contact', path: '/contact' }
 	];
 </script>
@@ -14,7 +13,11 @@
 		<ul>
 			{#each links as link}
 				<li>
-					<a href={link.path} class={$page.url.pathname === link.path ? 'active' : ''}>
+					<a
+						href={link.path}
+						class:active={$page.url.pathname === link.path}
+						aria-current={$page.url.pathname === link.path ? 'page' : undefined}
+					>
 						{link.name}
 					</a>
 				</li>
