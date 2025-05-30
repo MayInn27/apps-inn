@@ -57,6 +57,14 @@
 								{item.currencySymbol}
 								{(parseFloat(item.price || 0) * (item.quantity || 1)).toFixed(2)}
 							</span>
+							<button
+								aria-label="Remove item from basket"
+								on:click={() => {
+									basket = basket.filter((b) => b !== item);
+								}}
+							>
+								❌
+							</button>
 						</li>
 					{/each}
 					<h4 class="total-styling">
