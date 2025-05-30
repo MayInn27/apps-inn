@@ -1,9 +1,28 @@
 <script lang="ts">
-	import { dishes } from '$lib/store';
+	import { onMount } from 'svelte';
+	import { getDishes } from '$lib/api';
 
-	let basket: any[] = [];
+	type Dish = {
+		name: string;
+		price?: number;
+		details?: string;
+		image?: string;
+		currencySymbol?: string;
+	};
 
-	function addToBasket(dish: { name: any; price?: number; details?: string; image?: string }) {
+	let dishes: Dish[] = [];
+	let basket: Dish[] = [];
+	let showBasket = false;
+
+	onMount(async () => {
+		try {
+			dishes = await getDishes();
+		} catch (err) {
+			console.error('Failed to load dishes:', err);
+		}
+	});
+
+	function addToBasket(dish: Dish) {
 		const index = basket.findIndex((item) => item.name === dish.name);
 		if (index !== -1) {
 			// If dish is already in basket, increment quantity
@@ -21,11 +40,11 @@
 		basket = basket.map((item, i) => (i === index ? { ...item, quantity: newQty } : item));
 	}
 
-	let showBasket = false;
 	function toggleBasket() {
 		showBasket = !showBasket;
 	}
 </script>
+
 
 <main class="container">
 	<button class="basket-button" on:click={toggleBasket}>
@@ -73,7 +92,7 @@
 							{basket[0]?.currencySymbol}
 							{basket
 								.reduce(
-									(total, item) => total + parseFloat(item.price || 0) * (item.quantity || 1),
+									(total, item) => total + (typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')) * (item.quantity || 1),
 									0
 								)
 								.toFixed(2)}
@@ -106,7 +125,7 @@
 	</div>
 </main>
 
-<style>
+ <style>
 	.button-container {
 		display: flex;
 		justify-content: flex-end;
@@ -251,4 +270,4 @@
 		text-align: center;
 		color: #666;
 	}
-</style>
+</style> 
