@@ -27,13 +27,22 @@
 						<li class="basket-item">
 							<span>{item.name}</span>
 							<span>{item.currencySymbol}{item.price}</span>
+							<button
+								aria-label="Remove item from basket"
+								on:click={() => {
+									basket = basket.filter((b) => b !== item);
+								}}
+							>
+								❌
+							</button>
 						</li>
 					{/each}
 					<h4 class="total-styling">
 						Total: &nbsp;
 						<b>
 							{basket[0]?.currencySymbol}
-							{basket.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2)}</b>
+							{basket.reduce((total, item) => total + parseFloat(item.price || 0), 0).toFixed(2)}
+						</b>
 					</h4>
 				</ul>
 			{:else}
