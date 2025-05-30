@@ -4,10 +4,11 @@
 
 	type Dish = {
 		name: string;
-		price?: number;
+		price: number;
 		details?: string;
 		image?: string;
 		currencySymbol?: string;
+		quantity: number;
 	};
 
 	let dishes: Dish[] = [];
@@ -45,7 +46,6 @@
 	}
 </script>
 
-
 <main class="container">
 	<button class="basket-button" on:click={toggleBasket}>
 		🛒 Basket ({basket.length})
@@ -74,7 +74,10 @@
 							</select>
 							<span>
 								{item.currencySymbol}
-								{(parseFloat(item.price || 0) * (item.quantity || 1)).toFixed(2)}
+								{(
+									(typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')) *
+									(item.quantity || 1)
+								).toFixed(2)}
 							</span>
 							<button
 								aria-label="Remove item from basket"
@@ -92,7 +95,10 @@
 							{basket[0]?.currencySymbol}
 							{basket
 								.reduce(
-									(total, item) => total + (typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')) * (item.quantity || 1),
+									(total, item) =>
+										total +
+										(typeof item.price === 'number' ? item.price : parseFloat(item.price || '0')) *
+											(item.quantity || 1),
 									0
 								)
 								.toFixed(2)}
@@ -125,7 +131,7 @@
 	</div>
 </main>
 
- <style>
+<style>
 	.button-container {
 		display: flex;
 		justify-content: flex-end;
@@ -270,4 +276,4 @@
 		text-align: center;
 		color: #666;
 	}
-</style> 
+</style>
