@@ -2,7 +2,7 @@ export type Dish = {
     name: string;
     price: number;
     details?: string;
-    image?: string;
+    imageURL?: string;
     currencySymbol?: string;
     quantity: number;
 };
