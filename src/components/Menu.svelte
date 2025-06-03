@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Dish } from '../models/dish';
+	import type { Dish } from "../models/dish";
 	export let dishes: Dish[] = [];
 	export let addToBasket: (dish: Dish) => void;
 </script>
@@ -7,13 +7,18 @@
 <div class="dish-grid">
 	{#each dishes as dish}
 		<div class="dish-card">
-			<img class="dish-image" src={dish.image} alt={dish.name} />
+			<img class="dish-image" src={dish.imageURL} alt={dish.name} />
 			<div class="dish-content">
 				<h2 class="dish-name">{dish.name}</h2>
 				<p class="dish-price">{dish.currencySymbol}{dish.price}</p>
 				<p class="dish-details">{dish.details}</p>
 				<div class="button-container">
-					<button class="add-to-basket" on:click={() => addToBasket(dish)}> Add to Basket </button>
+					<button
+						class="add-to-basket"
+						on:click={() => addToBasket(dish)}
+					>
+						Add to Basket
+					</button>
 				</div>
 			</div>
 		</div>
